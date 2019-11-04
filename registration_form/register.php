@@ -1,4 +1,4 @@
-<?php include "./header.php" ?>
+<?php include "./header.html" ?>
 <form id="msform">
   <!-- progressbar -->
   <ul id="progressbar">
@@ -35,4 +35,4 @@
     <input type="submit" name="submit" class="submit action-button" value="Submit" />
   </fieldset>
 </form>  
-<?php include "footer.php"?>
+<?php include "footer.html"?>
