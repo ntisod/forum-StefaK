@@ -2,12 +2,13 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 @import "./navigation.css";
 
-/*basic reset*/
-* {	
+* {
+    /* Make css less painful */
 	margin: 0; 
 	padding: 0;		
-    font-family: montserrat, arial, verdana;
     box-sizing: border-box;
+
+    font-family: montserrat, arial, verdana;
 }
 
 html, body {
@@ -24,15 +25,27 @@ body {
 
 body #dashboard {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-image: url("/pictures/thunderstormBackground.jpg");
     background-size: 100% 100%;
+    background-attachment: fixed;
 }
 
+/* CLASSES */
 .dot {
+    flex: none !important;
     width: 5px;
     height: 5px;
     background-color: aqua;
+    /* Makes the square oval */
     border-radius: 50%;
+    /* I want the dot to be in line with the text */
     display: inline-block;
+    /* Separate the dot and the text on its right hand side */
+    margin-right: 0.5rem;
+}
+
+/* Hides element */
+.hidden {
+    display: none;
 }
