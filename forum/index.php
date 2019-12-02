@@ -16,7 +16,7 @@ while ($output1 = mysqli_fetch_assoc($query1))
     echo('<h1>'.$output1['name'].'</h1>');
 
 //Close the connection
-closeConn($conn);
+mysqli_close($conn);
 
 //Include the login/register control
 include "./loregcontrol.php";

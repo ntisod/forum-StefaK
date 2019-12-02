@@ -149,12 +149,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         <style type="text/css">
             body { 
                 font: 14px sans-serif; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
             }
+
             .wrapper { 
-                width: 350px; 
+                width: 400PX; 
                 padding: 20px; 
             }
+
         </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
 
     <body>
