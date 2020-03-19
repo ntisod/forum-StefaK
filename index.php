@@ -2,6 +2,7 @@
 
 //Methods for database connection
 include "conn.php";
+
 require "./backend/getSettings.php";
 
 $conn = openConn();
@@ -41,6 +42,7 @@ switch ($request) {
         break;
     case "/api/uploadUserPhoto":
         require "./backend/uploadUserPhoto.php";
+        uploadUserPhoto();
         break;
     case "/500":
         require "./500.shtml";

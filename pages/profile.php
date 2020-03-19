@@ -17,7 +17,7 @@
 
     <div id="profilePageSettings">
         <form action="/api/uploadUserPhoto" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file">
+            <input type="file" name="photo">
             <button type="submit" name="submit"> Change Photo</button>
         </form>
     </div>

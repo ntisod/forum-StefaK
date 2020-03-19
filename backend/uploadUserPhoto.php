@@ -1,5 +1,9 @@
 <?php 
-function uploadPhoto() {
+function uploadUserPhoto() {
+    if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] != true) {
+        header("location: /login");
+    }
+
     if (isset($_POST["submit"])) {
         $file = $_FILES["photo"];
 
@@ -16,13 +20,14 @@ function uploadPhoto() {
 
         if (in_array($fileActualExt, $allowed)) {
             if ($fileError === 0) {
-                //unit is kB
-                if ($fileSize <= 5000) {
+                //unit is in bytes
+                if ($fileSize <= 5000000) {
                     //File is uploaded here
-                    $fileNameNew = $_SESSION["username"] . $fileActualExt;
-                    $fileDestination = "./static/uploads/users/";
+                    $fileNameNew = $_SESSION["username"] . "." . $fileActualExt;
+                    $fileDestination = "./static/uploads/users/" . $fileNameNew;
                     move_uploaded_file($fileTmpName, $fileDestination);
-                    echo ""
+
+                    header("location: /");
                 } else {
                     echo "Your file is too big!";
                 }
