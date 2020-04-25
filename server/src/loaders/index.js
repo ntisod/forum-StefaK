@@ -1,5 +1,6 @@
 const   bodyParser      = require("body-parser"),
-        express         = require("express");
+        express         = require("express"),
+        cors            = require("cors");
 
 const   config          = require("../config"),
         api             = require("../api"),
@@ -8,9 +9,16 @@ const   config          = require("../config"),
 // Initializes the server
 module.exports = app => {
 
-    // Express middleware that allows POSTing data
+    // Parse requests of content-type - application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true }));
+    // Parse requests of content-type - application/json
     app.use(bodyParser.json());
+
+    // Enable CORS
+    let corsOptions = {
+        origin: config.origin
+    }
+    app.use(cors(corsOptions));
 
     // Serve the public folder
     app.use(express.static(config.clientDir));

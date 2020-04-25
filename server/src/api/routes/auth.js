@@ -1,5 +1,5 @@
-const   authRouter    = require("express").Router();
-const   { registerUser } = require("../../services");
+const   authRouter                  = require("express").Router();
+const   { registerUser, loginUser } = require("../../services/auth");
 
 module.exports = app => {
     authRouter.post("/", (req, res) => {
@@ -7,11 +7,12 @@ module.exports = app => {
     });
 
     authRouter.post("/login", (req, res) => {
-        res.send("Logging in");
+        let response = loginUser(req.body);
+        res.send(response);
     });
 
-    authRouter.post("/register", (req, res) => {
-        let response = registerUser(req.body);
+    authRouter.post("/register", async (req, res) => {
+        let response = await registerUser(req.body);
         res.send(response);
     });
 
