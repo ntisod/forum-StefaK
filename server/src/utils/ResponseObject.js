@@ -5,14 +5,15 @@ module.exports = class ReponseObject {
 
     static success(data) {
         return JSON.stringify({
-            successCode: 0,
+            status: 200,
             ...data
         });
     }
 
-    static failure() {
+    static failure(data) {
         return JSON.stringify({
-            successCode: -1
+            status: -1,
+            ...data
         });
     }
 }

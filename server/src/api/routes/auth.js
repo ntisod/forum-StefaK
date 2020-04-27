@@ -8,7 +8,7 @@ module.exports = app => {
 
     authRouter.post("/login", (req, res) => {
         let response = loginUser(req.body);
-        res.send(response);
+        res.json(response);
     });
 
     authRouter.post("/register", async (req, res) => {

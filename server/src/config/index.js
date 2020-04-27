@@ -4,7 +4,9 @@ const   dotenv  = require("dotenv"),
 // Set NODE_ENV to development by default
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
-// Check for the existence of the .env file
+// Check for the existence of the .env file and load the variables therein
+// NOTE: only for development, during production deployement manager tools
+// will be used to specify the environment
 const envFound = dotenv.config();
 if (!envFound) {
     throw new Error("ERROR: Couldn't find .env file");
@@ -18,5 +20,6 @@ module.exports = {
     port: parseInt(PORT, 10),
     dbPath: `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
     clientDir: PATH.join(__dirname, "../public"),
-    origin: `${process.env.HOST}:${process.env.PORT}`
+    origin: `${process.env.HOST}:${process.env.PORT}`,
+    db: require("./db.config")
 }
