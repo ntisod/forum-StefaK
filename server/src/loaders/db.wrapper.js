@@ -4,10 +4,9 @@
 const mysql = require("mysql");
 const config = require("../config");
 
-module.exports.query = async (query, data) => {
-    let dbConnection;
-    let rows, fields;
+let dbConnection;
 
+async function connectToDb() {
     // Set up a database connection
     dbConnection = mysql.createConnection({
         host:       config.db.HOST,
@@ -26,13 +25,27 @@ module.exports.query = async (query, data) => {
 
         res("Successfully connected to server!");
     }));
+}
+
+// The server will crash if there were any errors
+module.exports.testDbConnection = async _ => {
+    await connectToDb();
+
+    // Close the db connection
+    dbConnection.end();
+}
+
+module.exports.query = async (query, data) => {
+    let rows, fields;
     
+    await connectToDb();
+
     // Execute the query
     await new Promise((res, rej) => { 
         dbConnection.query(query, data, (err, _rows, _fields) => {
             if (err)
                 return rej(err);
-            // Let the function that executed the query handle these data
+            // Let the function that executed the parent function handle these data
             rows = _rows;
             fields = _fields;
             return res("Query executed successfully");

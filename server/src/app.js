@@ -3,11 +3,11 @@ const   express =   require("express");
 const   config          =   require("./config"),
         loadAll         =   require("./loaders");
         
-function startServer() {
+async function startServer() {
     const app = express();
 
     // Set up different parts of the server in separate modules 
-    loadAll(app);
+    await loadAll(app);
 
     app.listen(config.port, err => {
         if (err) {

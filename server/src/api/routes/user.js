@@ -1,13 +1,15 @@
-const userRouter = require("express").Router();
+const user_Router = require("express").Router();
+const user_Service = require("../../services/userService");
 
 module.exports = app => {
-    userRouter.get("/", (req, res) => {
-        res.send("Getting all users");
+    user_Router.get("/", async (req, res) => {
+        let response = await user_Service.getAllUsers();
+        res.json(response);
     });
 
-    userRouter.get("/me", (req, res) => {
+    user_Router.get("/me", (req, res) => {
         res.send("Getting info about myself");
     });
 
-    app.use("/api/users", userRouter);
+    app.use("/api/users", user_Router);
 }

@@ -1,25 +1,25 @@
 const   authRouter                  = require("express").Router();
-const   { registerUser, loginUser } = require("../../services/auth");
+const   { registerUser, loginUser } = require("../../services/authService");
 
+//NOTE: Routes in between /* */ comments are the exact same
 module.exports = app => {
-    authRouter.post("/", (req, res) => {
-        res.send("Creating a new user");
-    });
-
-    authRouter.post("/login", (req, res) => {
-        let response = loginUser(req.body);
+    /* REGISTER ROUTES */
+    authRouter.post("/", async (req, res) => {
+        let response = await registerUser(req.body);
         res.json(response);
     });
-
     authRouter.post("/register", async (req, res) => {
         let response = await registerUser(req.body);
-        res.send(response);
+        res.json(response);
     });
+    /* REGISTER ROUTES END */
 
-    authRouter.post("/logout", (req, res) => {
-        res.send("Logging out");
-    }); 
-
+    /* LOGIN ROUTES */
+    authRouter.post("/login", async (req, res) => {
+        let response = await loginUser(req.body);
+        res.json(response);
+    });
+    /* LOGIN ROUTES END */
     app.use("/api/users", authRouter);
 }
 
