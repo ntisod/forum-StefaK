@@ -1,5 +1,5 @@
 const   Forum           = require("../models/forum"),
-        ResponseObject  = require("../utils/ResponseObject");
+        Response_Object  = require("../utils/ResponseObject");
 
 module.exports.createForum = async forumData => {
     // Validate the data
@@ -9,7 +9,7 @@ module.exports.createForum = async forumData => {
     
     // If there were any errros show the error messages to the client
     if (errorMessages.length > 0)
-        return ResponseObject.failure({
+        return Response_Object.failure({
             errors: errorMessages
         });
 
@@ -17,11 +17,27 @@ module.exports.createForum = async forumData => {
     let newForum = new Forum(forumData);
     let result = await newForum.create();
     if (result.error) {
-        return ResponseObject.failure({error: result.error});
+        return Response_Object.failure({error: result.error});
     }
 
     // Forum successfully created
-    return ResponseObject.success({
+    return Response_Object.success({
         message: "Forum created successfully"
     });
+}
+
+module.exports.getForum = async forum_data => {
+    // Try to retrieve the forum info 
+    let result = await Forum.getForum({ name: forum_data.name });
+    if (result.error)
+        return Response_Object.failure({ error: result.error });
+    return Response_Object.success({ ...result });
+}
+
+module.exports.getAllForums = async _ => {
+    // Try to retrieve all forums
+    let result = await Forum.getAllForums();
+    if (result.error)
+        return Response_Object.failure({ error: result.error });
+    return Response_Object.success({ ...result });
 }

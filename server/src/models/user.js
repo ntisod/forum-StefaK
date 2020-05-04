@@ -34,7 +34,7 @@ module.exports = class User {
         let results = await query(q_exists, [_username]);
         if (results.rows.length >= 1) {
             return {
-                ...results.rows[0]
+                user: results.rows[0]
             }
         } else return {
             error: "The specified user does not exist!"

@@ -10,6 +10,7 @@ const q_create = `INSERT INTO Forums (
                                     ) 
                                     VALUES (?, ?, ?, ?)`;
 const q_exists = "SELECT * FROM Forums WHERE name = ?";
+const q_all = "SELECT * FROM Forums";
 
 module.exports = class Forum {
     constructor({ name, description, amount_of_posts, amount_of_members} ) {
@@ -54,7 +55,7 @@ module.exports = class Forum {
         } else return false;
     }
 
-    static async getForum(_forumName) {
+    static async getForum({ _forumName }) {
         let results = await query(q_exists, [_forumName | this.name]);
 
         // If no forum with the specified name was found
@@ -66,7 +67,23 @@ module.exports = class Forum {
 
         // Return the forum data
         return {
-            ...results.rows[0]
+            forum: results.rows[0]
+        }
+    }
+
+    static async getAllForums() {
+        // Get all the forums
+        let result = await query(q_exists);
+
+        // If no forums exist
+        if (result.rows.length = 0)
+            return {
+                error: "There are no forums to be found!"
+            }
+        
+        // If at least one forum was found
+        return {
+            forums: result.rows
         }
     }
 }

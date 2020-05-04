@@ -1,5 +1,5 @@
 module.exports = class Post {
-    constructor() {
+    constructor(author, title, content, forum) {
         
     }
 }

@@ -1,5 +1,5 @@
 module.exports = class Comment {
-    constructor() {
+    constructor(commenter, content, post) {
         
     }
 }

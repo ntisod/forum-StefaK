@@ -1,2 +1,0 @@
-Work on function error handling: take a look at services.auth line 28-30, that is not a good 
-technique.
