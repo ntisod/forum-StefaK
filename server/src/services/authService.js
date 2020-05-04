@@ -23,7 +23,7 @@ module.exports.loginUser = async userData => {
     const token = jwt.sign( 
                             {userData}, 
                             process.env.SECRET_KEY,
-                            {expiresIn: "30s"}
+                            {expiresIn: "30m"} // TODO: Refresh the token once the expiresIn is very low
                         );
     
     // Send the token to the front end
