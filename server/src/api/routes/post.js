@@ -1,13 +1,25 @@
 const postRouter = require("express").Router();
+const { createPost, getAllPosts, getPost } = require("../../services/postService");
 
 module.exports = app => {
-    postRouter.post("/", (req, res) => {
-        res.send("Creating a new post");
+    postRouter.post("/", async (req, res) => {
+        let response = await createPost(req.body);
+        res.json(response);
     });
 
-    postRouter.get("/", (req, res) => {
-        res.send("Getting all posts");
+    postRouter.get("/", async (req, res) => {
+        let response = await getAllPosts();
+        res.json(response);
     });
 
-    app.use("/posts", postRouter);
+    postRouter.get("/:post_id", async (req, res) => {
+        let response = await getPost(req.params.post_id);
+        res.json(response);
+    });
+
+    postRouter.delete("/:post_id", async (req, res) => {
+        
+    });
+
+    app.use("/api/posts", postRouter);
 }

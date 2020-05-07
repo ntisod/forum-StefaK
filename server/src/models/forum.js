@@ -3,18 +3,18 @@ const { query } = require("../loaders/db.wrapper");
 const mysql = require("mysql");
 
 const q_create = `INSERT INTO Forums ( 
-                                        name, 
+                                        forum_name, 
                                         description, 
                                         amount_of_posts, 
                                         amount_of_members
                                     ) 
                                     VALUES (?, ?, ?, ?)`;
-const q_exists = "SELECT * FROM Forums WHERE name = ?";
+const q_exists = "SELECT * FROM Forums WHERE forum_name = ?";
 const q_all = "SELECT * FROM Forums";
 
 module.exports = class Forum {
-    constructor({ name, description, amount_of_posts, amount_of_members} ) {
-        this.name               = name;
+    constructor({ forum_name, description, amount_of_posts, amount_of_members} ) {
+        this.name               = forum_name;
         this.description        = description;
         this.amount_of_posts    = amount_of_posts;
         this.amount_of_members  = amount_of_members;
@@ -55,13 +55,13 @@ module.exports = class Forum {
         } else return false;
     }
 
-    static async getForum({ _forumName }) {
+    static async getForum(_forumName) {
         let results = await query(q_exists, [_forumName | this.name]);
 
         // If no forum with the specified name was found
         if (results.rows.length == 0) {
             return {
-                error: `The forum: '${_forumName | this.name}' does not exist`
+                error: `The forum: '${_forumName}' does not exist`
             }
         }
 
@@ -73,10 +73,10 @@ module.exports = class Forum {
 
     static async getAllForums() {
         // Get all the forums
-        let result = await query(q_exists);
+        let result = await query(q_all);
 
         // If no forums exist
-        if (result.rows.length = 0)
+        if (result.rows.length == 0)
             return {
                 error: "There are no forums to be found!"
             }

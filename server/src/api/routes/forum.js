@@ -1,5 +1,5 @@
 const forumRouter = require("express").Router();
-const { createForum, getForum } = require("../../services/forumService");
+const { createForum, getForum, getAllForums } = require("../../services/forumService");
 
 module.exports = app => {
     // Create forum 
@@ -11,6 +11,7 @@ module.exports = app => {
     // Get all forums 
     forumRouter.get("/", async (req, res) => {
         let response = await getAllForums();
+        res.json(response);
     });
 
     // Get a specific forum
