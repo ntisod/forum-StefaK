@@ -1,7 +1,0 @@
-Added changelog
-Added index.js to models for the database creation
-Implemented getForum function
-Implemented getAllForums function
-Changes to certain programming practices
-More comments have been written
-Added parameters for models: post, comment, like

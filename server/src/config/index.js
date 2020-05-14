@@ -19,7 +19,7 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME,
 module.exports = {
     port: parseInt(PORT, 10),
     dbPath: `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
-    clientDir: PATH.join(__dirname, "../public"),
-    origin: `${process.env.HOST}:${process.env.PORT}`,
+    clientDir: PATH.join(__dirname, "../../public"),
+    origin: `http://${process.env.HOST}:${process.env.PORT}`,
     db: require("./db.config")
 }

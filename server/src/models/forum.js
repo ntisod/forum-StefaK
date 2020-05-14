@@ -13,7 +13,7 @@ const q_exists = "SELECT * FROM Forums WHERE forum_name = ?";
 const q_all = "SELECT * FROM Forums";
 
 module.exports = class Forum {
-    constructor({ forum_name, description, amount_of_posts, amount_of_members} ) {
+    constructor({ forum_name, description, amount_of_posts, amount_of_members}) {
         this.name               = forum_name;
         this.description        = description;
         this.amount_of_posts    = amount_of_posts;

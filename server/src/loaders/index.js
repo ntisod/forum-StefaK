@@ -17,10 +17,7 @@ module.exports = async app => {
     app.use(bodyParser.json());
 
     // Enable CORS
-    let corsOptions = {
-        origin: config.origin
-    }
-    app.use(cors(corsOptions));
+    app.use(cors());
 
     // Serve the public folder
     app.use(express.static(config.clientDir));
