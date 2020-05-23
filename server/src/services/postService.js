@@ -23,6 +23,18 @@ module.exports.createPost = async postData => {
             type: "f",
             error: result.error
         });
+    
+    if (!postData.title) 
+        errors.push({
+            type: "u",
+            error: "The title was not provided"
+        });
+
+    if (!postData.content)
+        errors.push({
+            type: "u",
+            error: "The content section cannot be empty"
+        });
 
     // Show the error messages to the client, if any
     if (errors.length > 0)
@@ -32,8 +44,22 @@ module.exports.createPost = async postData => {
     result = await new_post.create();
     if (result.error)
         return Response_Object.failure({error: result.error});
-        
+    
+    // Increment the amount of posts in the corresponding forum
+    await Forum.incrementPosts({ forum_name: postData.forum_name });
+    
     return Response_Object.success({ message: "Post created successfully"});
+}
+
+module.exports.deletePost = async post_data => {
+    let result;
+    // Delete the post
+    result = Post.deletePost(post_data.post_id);
+
+    // Decrement the corresponding forums amount of posts
+    result = Forum.decrementPosts({ forum_name: post_data.forum_name });
+
+    return Response_Object.success({ message: "Post deleted successfully" });
 }
 
 module.exports.getAllPosts = async _ => {

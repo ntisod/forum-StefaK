@@ -10,6 +10,8 @@ const q_create = `
 
 const q_get_all = "SELECT * FROM Posts";
 const q_exists = "SELECT * FROM Posts WHERE post_id = ?";
+const q_delete = "DELETE 1 FROM Posts WHERE post_id = ?";
+const q_get_all_in_forum = "SELECT * FROM Posts WHERE forum_id = ?";
 
 module.exports = class Post {
     constructor(author, title, content, forum_name) {
@@ -22,11 +24,30 @@ module.exports = class Post {
     async create() {
         // Create the post
         await query(q_create, [this.title, this.content, this.forum_name, this.author]);
+                
         return {};
     }
 
+    static async deletePost(post_id) {
+        // Delete the post
+        await query(q_delete, [post_id]);
+        
+        return {};
+    }
+    
     static async getAll() {
         let result = await query(q_get_all);
+        if (result.rows.length == 0)
+            return {
+                error: "No posts found."
+            }
+        return {
+            posts: result.rows
+        }
+    }
+
+    static async getForumPosts(forum_id) {
+        let result = await query(q_get_all_in_forum, [forum_id]);
         if (result.rows.length == 0)
             return {
                 error: "No posts found."

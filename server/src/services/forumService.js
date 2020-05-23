@@ -1,5 +1,6 @@
 const   Forum           = require("../models/forum"),
-        Response_Object  = require("../utils/ResponseObject");
+        Response_Object  = require("../utils/ResponseObject"),
+        Post            = require("../models/post");
 
 module.exports.createForum = async forumData => {
     let result;
@@ -28,9 +29,10 @@ module.exports.createForum = async forumData => {
     });
 }
 
-module.exports.getForum = async forum_data => {
+module.exports.getForum = async forum_name => {
     // Try to retrieve the forum info 
-    let result = await Forum.getForum({ name: forum_data.name });
+    let result = await Forum.getForum(forum_name);
+    console.log(result)
     if (result.error)
         return Response_Object.failure({ error: result.error });
     return Response_Object.success({ ...result });
@@ -41,5 +43,20 @@ module.exports.getAllForums = async _ => {
     let result = await Forum.getAllForums();
     if (result.error)
         return Response_Object.failure({ error: result.error });
+    return Response_Object.success({ ...result });
+}
+
+module.exports.getForumPosts = async forum_name => {
+    // First, get the forum id
+    let result = await Forum.getForum(forum_name);
+    if (result.error)
+        return Response_Object.failure({ error: result.error });
+    let forum_id = result.forum.forum_id;
+
+    // Now get all the posts for that forum
+    result = await Post.getForumPosts(forum_id);
+    if (result.error) 
+        return Response_Object.failure({ error: result.error });
+
     return Response_Object.success({ ...result });
 }

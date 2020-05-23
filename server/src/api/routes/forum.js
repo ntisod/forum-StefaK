@@ -1,24 +1,30 @@
-const forumRouter = require("express").Router();
-const { createForum, getForum, getAllForums } = require("../../services/forumService");
+const forum_router = require("express").Router();
+const { createForum, getForum, getAllForums, getForumPosts } = require("../../services/forumService");
 
 module.exports = app => {
     // Create forum 
-    forumRouter.post("/", async (req, res) => {
+    forum_router.post("/", async (req, res) => {
         let response = await createForum(req.body);
         res.json(response);
     });
 
     // Get all forums 
-    forumRouter.get("/", async (req, res) => {
+    forum_router.get("/", async (req, res) => {
         let response = await getAllForums();
         res.json(response);
     });
 
     // Get a specific forum
-    forumRouter.get("/:name", async (req, res) => {
-        let response = await getForum({ name: req.params.name });
+    forum_router.get("/:forum_name", async (req, res) => {
+        let response = await getForum(req.params.forum_name);
         res.json(response);
     });
 
-    app.use("/api/forums", forumRouter);
+    // Get all posts for a specific forum
+    forum_router.get("/:forum_name/posts", async (req, res) => {
+        let response = await getForumPosts(req.params.forum_name);
+        res.json(response);
+    });
+
+    app.use("/api/forums", forum_router);
 }

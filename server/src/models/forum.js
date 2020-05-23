@@ -11,6 +11,10 @@ const q_create = `INSERT INTO Forums (
                                     VALUES (?, ?, ?, ?)`;
 const q_exists = "SELECT * FROM Forums WHERE forum_name = ?";
 const q_all = "SELECT * FROM Forums";
+const q_inc_members = "UPDATE Forums SET amount_of_members = IFNULL(amount_of_members, 0) + 1 WHERE forum_name = ?";
+const q_dec_members = "UPDATE Forums SET amount_of_members = amount_of_members - 1 WHERE forum_name = ?";
+const q_inc_posts = "UPDATE Forums SET amount_of_posts = IFNULL(amount_of_posts, 0) + 1 WHERE forum_name = ?";
+const q_dec_posts = "UPDATE Forums SET amount_of_posts = amount_of_posts - 1 WHERE forum_name = ?";
 
 module.exports = class Forum {
     constructor({ forum_name, description, amount_of_posts, amount_of_members}) {
@@ -32,20 +36,24 @@ module.exports = class Forum {
         return {};
     }
 
-    async incrementMember() {
+    static async incrementMembers({ forum_name }) {
+        await query(q_inc_members, [forum_name]);
+        return {};
+    }   
 
+    static async decrementMembers({ forum_name }) {
+        await query(q_dec_members, [forum_name]);
+        return {};
     }
 
-    async decrementMember() {
-
+    static async incrementPosts({ forum_name }) {
+        await query(q_inc_posts, [forum_name]);
+        return {};
     }
 
-    async incrementPost() {
-
-    }
-
-    async decrementPost() {
-
+    static async decrementPosts({ forum_name }) {
+        await query(q_dec_posts, [forum_name]);
+        return {};
     }
 
     async forumExists() {
@@ -55,13 +63,13 @@ module.exports = class Forum {
         } else return false;
     }
 
-    static async getForum(_forumName) {
-        let results = await query(q_exists, [_forumName | this.name]);
+    static async getForum(_forum_name) {
+        let results = await query(q_exists, [_forum_name]);
 
         // If no forum with the specified name was found
         if (results.rows.length == 0) {
             return {
-                error: `The forum: '${_forumName}' does not exist`
+                error: `The forum: '${_forum_name}' does not exist`
             }
         }
 

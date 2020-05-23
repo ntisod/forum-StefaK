@@ -1,5 +1,5 @@
 const postRouter = require("express").Router();
-const { createPost, getAllPosts, getPost } = require("../../services/postService");
+const { createPost, getAllPosts, getPost, deletePost } = require("../../services/postService");
 
 module.exports = app => {
     postRouter.post("/", async (req, res) => {
@@ -18,7 +18,8 @@ module.exports = app => {
     });
 
     postRouter.delete("/:post_id", async (req, res) => {
-        
+        let response = await deletePost(req.params.post_id);
+        res.json(response);
     });
 
     app.use("/api/posts", postRouter);

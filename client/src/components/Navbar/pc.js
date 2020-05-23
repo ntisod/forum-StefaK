@@ -39,10 +39,36 @@ const Menu_Button = styled.li`
     }
 `;
 
+const Username_Container = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+const Username = styled.h1`
+    font-weight: bold;
+    margin-left: 10px;
+`;
+
+const Username_Container_Button = styled.button`
+    margin-left: 15px;
+    padding: 15px;
+    background: white;
+    &:hover {
+        background: gray;
+        cursor: pointer;
+    }
+`;
+
 export default _ => {
     return (
         <Navbar>
-            <h1>Anonymous</h1>
+            <Username_Container>
+                <Username>Anonymous</Username>
+                <Styled_Link to="/login"><Username_Container_Button>Login</Username_Container_Button></Styled_Link>
+                <Styled_Link to="/register"><Username_Container_Button>Register</Username_Container_Button></Styled_Link>
+            </Username_Container>
+
             <Menu>
                 <Styled_Link to="/"><Menu_Button>Home</Menu_Button></Styled_Link>
                 <Styled_Link to="/forums"><Menu_Button>Forums</Menu_Button></Styled_Link>

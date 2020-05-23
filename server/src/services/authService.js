@@ -31,6 +31,29 @@ module.exports.loginUser = async userData => {
 }
 
 module.exports.registerUser = async userData => {
+    // Validate the data
+    let errors = [];
+    if (!userData.username) {
+        errors.push({ 
+            error: "No username specified"
+        });
+    }
+
+    if (!userData.password) {
+        errors.push({ 
+            error: "No password specified"
+        });
+    }
+
+    if (!userData.cpassword) {
+        errors.push({ 
+            error: "You must confirm the password"
+        });
+    }
+
+    if (errors.length > 0)
+        return ResponseObject.failure({ errors });
+        
     // If the passwords do not match
     if (userData.password !== userData.cpassword) {
         return ResponseObject.failure({ error: "The passwords do not match" });
