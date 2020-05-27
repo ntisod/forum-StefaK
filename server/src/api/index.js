@@ -2,6 +2,7 @@ const   useAuthRoutes   = require("./routes/auth"),
         useUserRoutes   = require("./routes/user"),
         useForumRoutes  = require("./routes/forum"),
         usePostRoutes   = require("./routes/post"),
+        useMemberRoutes = require("./routes/member"),
         { verifyToken } = require("./middlewares");
 
 module.exports = app => {
@@ -9,6 +10,7 @@ module.exports = app => {
     useUserRoutes(app);
     useForumRoutes(app);
     usePostRoutes(app);
+    useMemberRoutes(app);
     
     // 404 Route
     app.get("*", (req, res) => {

@@ -12,7 +12,8 @@ export default class Navbar extends Component {
     render() {
         return (
             <div>
-                { this.state.is_mobile ? <Mobile_navbar /> : <Pc_navbar />}
+                { this.state.is_mobile ?    <Mobile_navbar isLoggedIn = {this.props.isLoggedIn}/> : 
+                                            <Pc_navbar isLoggedIn = {this.props.isLoggedIn}/>} 
             </div>
         )
     }

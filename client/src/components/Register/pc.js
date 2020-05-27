@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
 
 export default props => {
     const [state, setState] = useState({
         username_value: "",
         password_value: "",
         cpassword_value: "",
-        passwords_dont_match: false
+        passwords_dont_match: false,
+        registration_successful: false,
+        redirect: false,
+        error: "",
     });
 
     const changeUsername = new_username => {
@@ -34,6 +38,8 @@ export default props => {
         switch(event_name) {
             case "username":
                 changeUsername(event.target.value);
+                // Make the error from the server response dissapear if the username is changed 
+                makeErrorDissappear();
                 break;
             
             case "password":
@@ -46,22 +52,58 @@ export default props => {
         }
     }
 
-    const handleSubmit = event => {
+    // Make the error dissapear
+    const makeErrorDissappear = _ => {
+        setState(old_state => ({
+            ...old_state,
+            error: ""
+        }));
+    }
+
+    const handleSubmit = async event => {
+        // This function must be called before the fist await
+        event.preventDefault();
+
+        // Reset the password error on submit so that if the user types in the same passwords, but wrong username, the password error is hidden
+        setState(old_state => ({
+            ...old_state,
+            passwords_dont_match: false
+        }));
+
+        // If the passwords do not match
         if (event.target.password.value != event.target.cpassword.value) 
-            setState({
+            setState(old_state => ({
+                ...old_state,
+                // Setting this to true will make an password-related error appear to the user
                 passwords_dont_match: true
-            });
+            }));
+        // If the passwords match
         else {
-            props.register({
+            // response is the servers response, in this case either status: 200 or an error and status: -1
+            let response = await props.register({
                 username: event.target.username.value,
                 password: event.target.password.value,
                 cpassword: event.target.cpassword.value
             });
+
+            // If there was an error
+            if (response.status == -1) {
+                setState(old_state => ({
+                    ...old_state,
+                    error: response.error
+                }));
+            } else 
+            {
+                // If there were no errors, show a success message and redirect to login
+                setState(old_state => ({
+                    ...old_state,
+                    registration_successful: true
+                }));
+            }
         }
-        event.preventDefault();
     }
 
-    return (
+    const showRegisterForm = _ => (
         <div>
             <h1>Register</h1>
             <form onSubmit={handleSubmit}>
@@ -69,8 +111,27 @@ export default props => {
                 <input type="password" name="password" placeholder="password" required onChange={handleChange}></input>
                 <input type="password" name="cpassword" placeholder="confirm password" required onChange={handleChange}></input> 
                 {state.passwords_dont_match && <p>The passwords do not match</p>}
+                {state.error.length > 0 && <p>{state.error}</p>}
                 <input type="submit"></input>
             </form> 
         </div>
     );
+
+    const showSuccessMessage = _ => {
+        // First schedule the redirect function to run after 3 seconds from now
+        setTimeout(_ => setState(old_state => ({
+            ...old_state,
+            redirect: true
+        })), 3000);
+
+        // Then return the success message to be displayed
+        return <h1>Registration successful!</h1>;
+    };
+
+    if (state.redirect)
+        return <Redirect to="/login" />
+    if (state.registration_successful)
+        return showSuccessMessage();
+    if (!state.registration_successful)
+        return showRegisterForm(); 
 }

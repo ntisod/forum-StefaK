@@ -25,6 +25,6 @@ module.exports = app => {
         let response = await getForumPosts(req.params.forum_name);
         res.json(response);
     });
-
+    
     app.use("/api/forums", forum_router);
 }

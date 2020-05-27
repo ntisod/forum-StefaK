@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import  { Link } from "react-router-dom";
+
 const Navbar = styled.nav`
     width: 100%;
     height: 8vh;
@@ -60,13 +61,20 @@ const Username_Container_Button = styled.button`
     }
 `;
 
-export default _ => {
+const renderAuthButtons = _ => {
+    return <>
+                <Styled_Link to="/login"><Username_Container_Button>Login</Username_Container_Button></Styled_Link>
+                <Styled_Link to="/register"><Username_Container_Button>Register</Username_Container_Button></Styled_Link>
+    </>
+}
+
+export default props => {
+    console.log(props)
     return (
         <Navbar>
             <Username_Container>
                 <Username>Anonymous</Username>
-                <Styled_Link to="/login"><Username_Container_Button>Login</Username_Container_Button></Styled_Link>
-                <Styled_Link to="/register"><Username_Container_Button>Register</Username_Container_Button></Styled_Link>
+                { !props.isLoggedIn() && renderAuthButtons() }
             </Username_Container>
 
             <Menu>

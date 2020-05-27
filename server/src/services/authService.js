@@ -6,15 +6,15 @@ const   ResponseObject  = require("../utils/ResponseObject"),
 
 module.exports.loginUser = async userData => {
     // Get the user from the database
-    let userInDb = await User.getUser(userData.username);
-
+    let db_data = await User.getUser(userData.username);
+    
     // If there was an error while retrieving the user
     // send the error to the front end
-    if (userInDb.error)
-        return ResponseObject.failure({ error: userInDb.error });
+    if (db_data.error)
+        return ResponseObject.failure({ error: db_data.error });
 
     // Verify the password
-    if (!bcrypt.compareSync(userData.password, userInDb.password)) {
+    if (!bcrypt.compareSync(userData.password, db_data.user.password)) {
         // Password do not match
         return ResponseObject.failure({ error: "Wrong password" });
     }
@@ -31,33 +31,11 @@ module.exports.loginUser = async userData => {
 }
 
 module.exports.registerUser = async userData => {
-    // Validate the data
-    let errors = [];
-    if (!userData.username) {
-        errors.push({ 
-            error: "No username specified"
-        });
-    }
+    // Validation happens on the front end
+    // this just ensures that the server doesn't accidentaly crash
+    if (!userData.username || !userData.password)
+        return;
 
-    if (!userData.password) {
-        errors.push({ 
-            error: "No password specified"
-        });
-    }
-
-    if (!userData.cpassword) {
-        errors.push({ 
-            error: "You must confirm the password"
-        });
-    }
-
-    if (errors.length > 0)
-        return ResponseObject.failure({ errors });
-        
-    // If the passwords do not match
-    if (userData.password !== userData.cpassword) {
-        return ResponseObject.failure({ error: "The passwords do not match" });
-    }
     // Hash the password
     const passwordHash = bcrypt.hashSync(userData.password, 10);
 

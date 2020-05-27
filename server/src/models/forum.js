@@ -11,8 +11,8 @@ const q_create = `INSERT INTO Forums (
                                     VALUES (?, ?, ?, ?)`;
 const q_exists = "SELECT * FROM Forums WHERE forum_name = ?";
 const q_all = "SELECT * FROM Forums";
-const q_inc_members = "UPDATE Forums SET amount_of_members = IFNULL(amount_of_members, 0) + 1 WHERE forum_name = ?";
-const q_dec_members = "UPDATE Forums SET amount_of_members = amount_of_members - 1 WHERE forum_name = ?";
+const q_inc_members = "UPDATE Forums SET amount_of_members = IFNULL(amount_of_members, 0) + 1 WHERE forum_id = ?";
+const q_dec_members = "UPDATE Forums SET amount_of_members = amount_of_members - 1 WHERE forum_id = ?";
 const q_inc_posts = "UPDATE Forums SET amount_of_posts = IFNULL(amount_of_posts, 0) + 1 WHERE forum_name = ?";
 const q_dec_posts = "UPDATE Forums SET amount_of_posts = amount_of_posts - 1 WHERE forum_name = ?";
 
@@ -36,13 +36,13 @@ module.exports = class Forum {
         return {};
     }
 
-    static async incrementMembers({ forum_name }) {
-        await query(q_inc_members, [forum_name]);
+    static async incrementMembers({ forum_id }) {
+        await query(q_inc_members, [forum_id]);
         return {};
     }   
 
-    static async decrementMembers({ forum_name }) {
-        await query(q_dec_members, [forum_name]);
+    static async decrementMembers({ forum_id }) {
+        await query(q_dec_members, [forum_id]);
         return {};
     }
 
