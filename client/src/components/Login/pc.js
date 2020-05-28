@@ -20,26 +20,27 @@ export default props => {
 
     // Login method with { username, password } as data
     const login = async _ => {
-        console.log(password);
         let response = await props.login({ username, password });
-        console.log(response);
         return response;
     }
     
     // disable refresh and call login method
-    const onSubmit = async event => {
+    const handleSubmit = async event => {
         event.preventDefault();
+        console.log(username)
         let result = await login();
         // If there were any errors, update the state
-        if (result.error)
-            setState({
+        if (result.error) {
+            console.log(result.error)
+            return setState({
                 error: result.error
             });
-        
-        // If there were no errors, the user is successfully logged in, so change the global state
-        // to reflect that
-        console.log(props)
-        props.setLoggedIn(true);
+        }
+        else {
+            // If there were no errors, the user is successfully logged in, so change the global state
+            // to reflect that
+            props.setLoggedIn(true);
+        }
     }
 
     const showErrors = _ => {
@@ -49,11 +50,11 @@ export default props => {
 
     return <div>
         <h1>Log in</h1>
-        <form onSubmit={onSubmit}>
-            <input type="text" name="username" onChange={handleChange} required/>
-            <input type="password" name="password" onChange={handleChange} required />
-            <input type="submit" />
+        <form>
+            <input type="text" name="username" onChange={handleChange} required></input>
+            <input type="password" name="password" onChange={handleChange} required value={password}/>
         </form>
+        <button onClick={handleSubmit}>Submit</button>
         {showErrors()}
     </div>
 }

@@ -4,11 +4,9 @@
 const mysql = require("mysql");
 const config = require("../config");
 
-let dbConnection;
-
-async function connectToDb() {
+module.exports.connectToDb = async function connectToDb() {
     // Set up a database connection
-    dbConnection = mysql.createConnection({
+    global.db_connection = mysql.createConnection({
         host:       config.db.HOST,
         user:       config.db.USER,
         password:   config.db.PASSWORD,
@@ -16,7 +14,7 @@ async function connectToDb() {
     });
 
     // Connect to the database
-    await new Promise((res, rej) => dbConnection.connect(err => {
+    await new Promise((res, rej) => global.db_connection.connect(err => {
         // Crash the server if there was an error
         if (err) {
             console.log(err);
@@ -27,22 +25,12 @@ async function connectToDb() {
     }));
 }
 
-// The server will crash if there were any errors
-module.exports.testDbConnection = async _ => {
-    await connectToDb();
-
-    // Close the db connection
-    dbConnection.end();
-}
-
 module.exports.query = async (query, data) => {
     let rows, fields;
-    
-    await connectToDb();
 
     // Execute the query
     await new Promise((res, rej) => { 
-        dbConnection.query(query, data, (err, _rows, _fields) => {
+        global.db_connection.query(query, data, (err, _rows, _fields) => {
             if (err)
                 return rej(err);
             // Let the function that executed the parent function handle these data
@@ -51,9 +39,6 @@ module.exports.query = async (query, data) => {
             return res("Query executed successfully");
         });
     }) 
-
-    // Close the db connection
-    dbConnection.end();
 
     return { rows, fields };
 }

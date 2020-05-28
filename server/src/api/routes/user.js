@@ -8,11 +8,16 @@ module.exports = app => {
         res.json(response);
     });
 
+    user_Router.get("/:user_id", async (req, res) => {
+        let response = await user_Service.getUser(req.params.user_id);
+        res.json(response);
+    });
+
     user_Router.get("/me", verifyToken, (req, res) => {
         // TODO
-        // For this I will need to store the username somewhere on the client side
         res.send("Getting info about myself");
     });
+
 
     app.use("/api/users", user_Router);
 }

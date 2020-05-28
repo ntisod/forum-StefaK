@@ -3,7 +3,7 @@ const { query } = require("../loaders/db.wrapper");
 const mysql = require("mysql");
 
 const q_create  = "INSERT INTO Users (username, password) VALUES (?, ?)";
-const q_exists  = "SELECT * FROM Users WHERE username = ?";
+const q_exists  = "SELECT * FROM Users WHERE user_id = ?";
 const q_get_all = "SELECT * FROM Users";
 
 module.exports = class User {
@@ -30,8 +30,8 @@ module.exports = class User {
         } else return false;
     }
 
-    static async getUser(_username) {
-        let results = await query(q_exists, [_username]);
+    static async getUser(user_id) {
+        let results = await query(q_exists, [user_id]);
         if (results.rows.length >= 1) {
             return {
                 user: results.rows[0]

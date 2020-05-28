@@ -9,12 +9,12 @@ const q_create = `INSERT INTO Forums (
                                         amount_of_members
                                     ) 
                                     VALUES (?, ?, ?, ?)`;
-const q_exists = "SELECT * FROM Forums WHERE forum_name = ?";
+const q_exists = "SELECT * FROM Forums WHERE forum_id = ?";
 const q_all = "SELECT * FROM Forums";
 const q_inc_members = "UPDATE Forums SET amount_of_members = IFNULL(amount_of_members, 0) + 1 WHERE forum_id = ?";
 const q_dec_members = "UPDATE Forums SET amount_of_members = amount_of_members - 1 WHERE forum_id = ?";
-const q_inc_posts = "UPDATE Forums SET amount_of_posts = IFNULL(amount_of_posts, 0) + 1 WHERE forum_name = ?";
-const q_dec_posts = "UPDATE Forums SET amount_of_posts = amount_of_posts - 1 WHERE forum_name = ?";
+const q_inc_posts = "UPDATE Forums SET amount_of_posts = IFNULL(amount_of_posts, 0) + 1 WHERE forum_id = ?";
+const q_dec_posts = "UPDATE Forums SET amount_of_posts = amount_of_posts - 1 WHERE forum_id = ?";
 
 module.exports = class Forum {
     constructor({ forum_name, description, amount_of_posts, amount_of_members}) {
@@ -46,13 +46,13 @@ module.exports = class Forum {
         return {};
     }
 
-    static async incrementPosts({ forum_name }) {
-        await query(q_inc_posts, [forum_name]);
+    static async incrementPosts({ forum_id }) {
+        await query(q_inc_posts, [forum_id]);
         return {};
     }
 
-    static async decrementPosts({ forum_name }) {
-        await query(q_dec_posts, [forum_name]);
+    static async decrementPosts({ forum_id }) {
+        await query(q_dec_posts, [forum_id]);
         return {};
     }
 
@@ -63,13 +63,13 @@ module.exports = class Forum {
         } else return false;
     }
 
-    static async getForum(_forum_name) {
-        let results = await query(q_exists, [_forum_name]);
+    static async getForum(forum_id) {
+        let results = await query(q_exists, [forum_id]);
 
         // If no forum with the specified name was found
         if (results.rows.length == 0) {
             return {
-                error: `The forum: '${_forum_name}' does not exist`
+                error: `The forum with id "'${forum_id}'" does not exist`
             }
         }
 

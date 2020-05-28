@@ -32,7 +32,7 @@ const login = async data => {
   // Store the token in the localStorage
   localStorage.setItem("token", response_object.token);
 
-  return { response_object };
+  return { ...response_object };
 }
 
 export {

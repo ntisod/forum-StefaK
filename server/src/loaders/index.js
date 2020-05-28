@@ -5,11 +5,11 @@ const   bodyParser      = require("body-parser"),
 const   config                  = require("../config"),
         api                     = require("../api"),
         initApi                 = require("../api"),
-        { testDbConnection }    = require("./db.wrapper");
+        { connectToDb }    = require("./db.wrapper");
 
 // Initializes the server
 module.exports = async app => {
-    await testDbConnection();
+    await connectToDb();
 
     // Parse requests of content-type - application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true }));

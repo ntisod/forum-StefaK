@@ -3,6 +3,7 @@ import Component from "../Component";
 import Register_PC from "./pc";
 import Register_Mobile from "./mobile";
 import {register} from "../../services/authService";
+import { Redirect } from "react-router-dom";
 
 export default class Register extends Component {
     constructor(props) {

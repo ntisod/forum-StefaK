@@ -15,14 +15,14 @@ module.exports = app => {
     });
 
     // Get a specific forum
-    forum_router.get("/:forum_name", async (req, res) => {
-        let response = await getForum(req.params.forum_name);
+    forum_router.get("/:forum_id", async (req, res) => {
+        let response = await getForum(req.params.forum_id);
         res.json(response);
     });
 
     // Get all posts for a specific forum
-    forum_router.get("/:forum_name/posts", async (req, res) => {
-        let response = await getForumPosts(req.params.forum_name);
+    forum_router.get("/:forum_id/posts", async (req, res) => {
+        let response = await getForumPosts(req.params.forum_id);
         res.json(response);
     });
     

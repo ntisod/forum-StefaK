@@ -29,9 +29,9 @@ module.exports.createForum = async forumData => {
     });
 }
 
-module.exports.getForum = async forum_name => {
+module.exports.getForum = async forum_id => {
     // Try to retrieve the forum info 
-    let result = await Forum.getForum(forum_name);
+    let result = await Forum.getForum(forum_id);
     console.log(result)
     if (result.error)
         return Response_Object.failure({ error: result.error });
@@ -46,14 +46,8 @@ module.exports.getAllForums = async _ => {
     return Response_Object.success({ ...result });
 }
 
-module.exports.getForumPosts = async forum_name => {
-    // First, get the forum id
-    let result = await Forum.getForum(forum_name);
-    if (result.error)
-        return Response_Object.failure({ error: result.error });
-    let forum_id = result.forum.forum_id;
-
-    // Now get all the posts for that forum
+module.exports.getForumPosts = async forum_id => {
+    // Get all the posts for the forum
     result = await Post.getForumPosts(forum_id);
     if (result.error) 
         return Response_Object.failure({ error: result.error });

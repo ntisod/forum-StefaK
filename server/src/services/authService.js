@@ -12,7 +12,7 @@ module.exports.loginUser = async userData => {
     // send the error to the front end
     if (db_data.error)
         return ResponseObject.failure({ error: db_data.error });
-
+    
     // Verify the password
     if (!bcrypt.compareSync(userData.password, db_data.user.password)) {
         // Password do not match

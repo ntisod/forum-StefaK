@@ -14,10 +14,10 @@ const getAllForums = async _ => {
     }
 }
 
-const getForum = async forum_name => {
+const getForum = async forum_id => {
     let data;
     try {
-        data = await fetch(`${cfg.api_url}forums/${forum_name}`);
+        data = await fetch(`${cfg.api_url}forums/${forum_id}`);
         data = await data.json();
         return JSON.parse(data);
     } catch (error) { // If the server shut down or something
@@ -28,10 +28,17 @@ const getForum = async forum_name => {
     }
 }
 
-const getForumPosts = async forum_name => {
+const getForumName = async forum_id => {
+    // Just get the forum and only return the name
+    let response = await getForum(forum_id);
+    console.log(response)
+    return response.forum.forum_name;
+}
+
+const getForumPosts = async forum_id => {
     let data;
     try {
-        data = await fetch(`${cfg.api_url}forums/${forum_name}/posts`);
+        data = await fetch(`${cfg.api_url}forums/${forum_id}/posts`);
         data = await data.json();
         return JSON.parse(data);
     } catch (error) { // If the server shut down or something
@@ -45,5 +52,6 @@ const getForumPosts = async forum_name => {
 export {
     getAllForums,
     getForum,
-    getForumPosts
+    getForumPosts,
+    getForumName
 }
