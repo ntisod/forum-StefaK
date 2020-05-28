@@ -69,7 +69,6 @@ const renderAuthButtons = _ => {
 }
 
 export default props => {
-    console.log(props)
     return (
         <Navbar>
             <Username_Container>

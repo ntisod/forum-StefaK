@@ -5,8 +5,13 @@ const   ResponseObject  = require("../utils/ResponseObject"),
         User            = require("../models/user");
 
 module.exports.loginUser = async userData => {
+    // If the username or the password weren't provided, something unexpected happened
+    // just return an empty object and prevent crash;
+    if (!userData.username || !userData.password)
+        return {};
+
     // Get the user from the database
-    let db_data = await User.getUser(userData.username);
+    let db_data = await User.getUserByUsername(userData.username);
     
     // If there was an error while retrieving the user
     // send the error to the front end

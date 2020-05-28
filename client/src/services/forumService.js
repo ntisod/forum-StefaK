@@ -31,7 +31,6 @@ const getForum = async forum_id => {
 const getForumName = async forum_id => {
     // Just get the forum and only return the name
     let response = await getForum(forum_id);
-    console.log(response)
     return response.forum.forum_name;
 }
 

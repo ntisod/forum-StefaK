@@ -17,7 +17,7 @@ const Styled_Link = styled(Link)`
 
 const Forum = forum_data => {
     return (
-        <Styled_Link to={`/forums/${forum_data.forum_name}`}>
+        <Styled_Link to={`/forums/${forum_data.forum_id}`}>
             <h1>{forum_data.forum_name}</h1>
             <h1>{forum_data.description}</h1>
             <h1>Members: {forum_data.amount_of_members || 0}</h1>

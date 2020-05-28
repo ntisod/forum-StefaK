@@ -21,12 +21,13 @@ export default class Changing_Window extends Component {
 
     render() {
         return (
+            // this.props.match is undefined in rendered components, hence the props parameter in these anonymous functions
             <Switch>
                 <Route path="/" exact                       component={_ => <Dashboard {...this.props} />}/>
                 <Route path="/forums" exact                 component={_ => <Forums {...this.props} />}/>
                 <Route path="/posts" exact                  component={_ => <Posts {...this.props} />}/>
                 <Route path="/users" exact                  component={_ => <Users {...this.props} />}/>
-                <Route path="/forums/:forum_name" exact     component={_ => <Individual_Forum {...this.props} />} />
+                <Route path="/forums/:forum_name" exact     component={props => <Individual_Forum {...this.props} {...props}/>} />
                 <Route path="/register" exact               component={_ => <Register {...this.props} />} />
                 <Route path="/login" exact                  component={_ => <Login {...this.props} />} />
                 <Route path="*"                             component={E404}/>

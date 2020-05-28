@@ -2,9 +2,10 @@ const { query } = require("../loaders/db.wrapper");
 
 const mysql = require("mysql");
 
-const q_create  = "INSERT INTO Users (username, password) VALUES (?, ?)";
-const q_exists  = "SELECT * FROM Users WHERE user_id = ?";
-const q_get_all = "SELECT * FROM Users";
+const q_create          = "INSERT INTO Users (username, password) VALUES (?, ?)";
+const q_exists          = "SELECT * FROM Users WHERE user_id = ?";
+const q_exists_uname    = "SELECT * FROM Users WHERE username = ?";
+const q_get_all         = "SELECT * FROM Users";
 
 module.exports = class User {
     constructor({ username, password}) {
@@ -32,6 +33,19 @@ module.exports = class User {
 
     static async getUser(user_id) {
         let results = await query(q_exists, [user_id]);
+        console.log(results.rows)
+        if (results.rows.length >= 1) {
+            return {
+                user: results.rows[0]
+            }
+        } else return {
+            error: "The specified user does not exist!"
+        }
+    }
+
+    static async getUserByUsername(username) {
+        let results = await query(q_exists_uname, [username]);
+        console.log(results.rows)
         if (results.rows.length >= 1) {
             return {
                 user: results.rows[0]

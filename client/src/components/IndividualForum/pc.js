@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import  { Link } from "react-router-dom";
+import  { Link, Redirect } from "react-router-dom";
 
 export default forum_data => {
 
-    console.log(forum_data);
     const renderError = _ => {
         if (forum_data.posts.error)
             return <h1>{forum_data.posts.error}</h1>
@@ -17,6 +16,11 @@ export default forum_data => {
                 <p>{post.content}</p>
             </div>);
     }
+
+    // If the forum name is undefined, something unexpected happened
+    // so just redirect the user to the all forums page and prevent a crash
+    if (!forum_data.forum.forum_name)
+        return <Redirect to="/forums" />
 
     return (
         <div>

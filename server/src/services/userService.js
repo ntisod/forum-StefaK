@@ -20,3 +20,11 @@ module.exports.getUser = async user_id => {
         return Response_Object.failure({ error: result.error });
     return Response_Object.success({ ...result });
 }
+
+module.exports.getUserByUsername = async username => {
+    let result = await User_Model.getUserByUsername(username);
+        // Result is either an obj with an error or wth an user
+    if (result.error)
+        return Response_Object.failure({ error: result.error });
+    return Response_Object.success({ ...result });
+}

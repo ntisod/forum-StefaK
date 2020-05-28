@@ -13,6 +13,7 @@ export default class Individual_Forum extends Component {
     }
 
     async componentDidMount() {
+        console.log(this)
         let data = await getForum(this.props.match.params.forum_name);
         data.posts = await getForumPosts(this.props.match.params.forum_name);
 

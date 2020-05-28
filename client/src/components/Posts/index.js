@@ -16,7 +16,6 @@ export default class Posts extends Component {
         
         // I want to also get the author and forum names instead of displaying their ids
         let posts = await Promise.all(response.posts.map(async post => {
-            console.log(post)
             return {
                 ...post,
                 user_name: await getUserName(post.author_id),
