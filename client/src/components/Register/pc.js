@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+import * as c from "./pc.styled";
 
 export default props => {
     const [state, setState] = useState({
@@ -104,17 +105,20 @@ export default props => {
     }
 
     const showRegisterForm = _ => (
-        <div>
-            <h1>Register</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="username" placeholder="username" required onChange={handleChange}></input>
-                <input type="password" name="password" placeholder="password" required onChange={handleChange}></input>
-                <input type="password" name="cpassword" placeholder="confirm password" required onChange={handleChange}></input> 
-                {state.passwords_dont_match && <p>The passwords do not match</p>}
-                {state.error.length > 0 && <p>{state.error}</p>}
-                <input type="submit"></input>
-            </form> 
-        </div>
+        <c.Root_Container>
+            <c.Register_Container>
+                <c.Register_Header>Register</c.Register_Header>
+                <c.Register_Form onSubmit={handleSubmit}>
+                    <c.Input type="text" name="username" placeholder="username" required onChange={handleChange} autoComplete="off"></c.Input>
+                    <c.Input type="password" name="password" placeholder="password" required onChange={handleChange} autoComplete="off"></c.Input>
+                    <c.Input type="password" name="cpassword" placeholder="confirm password" required onChange={handleChange} autoComplete="off"></c.Input> 
+                    <c.Submit_Button>Submit</c.Submit_Button>
+                    {state.passwords_dont_match && <p>The passwords do not match</p>}
+                    {state.error.length > 0 && <p>{state.error}</p>}
+                    {!state.passwords_dont_match && !state.error && <p>.</p>}
+                </c.Register_Form>
+            </c.Register_Container>
+        </c.Root_Container>
     );
 
     const showSuccessMessage = _ => {

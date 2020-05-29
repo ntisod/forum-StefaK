@@ -25,7 +25,7 @@ module.exports = class User {
     }
 
     async userExists() {
-        let results = await query(q_exists, [this.username]);
+        let results = await query(q_exists_uname, [this.username]);
         if (results.rows.length > 0) {
             return true;
         } else return false;
