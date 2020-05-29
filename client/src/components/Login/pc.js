@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import * as c from "./pc.styled";
 
 export default props => {
 
@@ -40,6 +41,10 @@ export default props => {
     const handleSubmit = async event => {
         event.preventDefault();
 
+        // IF the username or password field was empty
+        if (state.username === "" || state.password === "")
+            return setState(old_state => ({ ...old_state, error: "The username and password fields cannot be empty" }));
+
         let result = await login();
         // If there were any errors, update the state
         if (result.error) {
@@ -57,13 +62,17 @@ export default props => {
             return <p>{state.error}</p>
     }
 
-    return <div>
-        <h1>Log in</h1>
-        <form>
-            <input type="text" name="username" onChange={handleChange} required />
-            <input type="password" name="password" onChange={handleChange} required />
-            <button onClick={handleSubmit}>Submit</button>
-        </form>
-        {showErrors()}
-    </div>
+    return (
+        <c.Root_Container>
+            <c.Login_Container>
+                <c.Login_Header>Log in</c.Login_Header>
+                <c.Login_Form>
+                    <c.Input type="text" name="username" onChange={handleChange} placeholder="username" autoComplete="off" required />
+                    <c.Input type="password" name="password" onChange={handleChange} placeholder="password" autoComplete="off" required />
+                    <c.Submit_Button onClick={handleSubmit}>Submit</c.Submit_Button>
+                </c.Login_Form>
+                {showErrors()}
+            </c.Login_Container>
+        </c.Root_Container>
+    );
 }

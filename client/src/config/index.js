@@ -3,7 +3,6 @@ const makeCfg = _ => {
     cfg.host = "localhost";
     cfg.port = 4000;
     cfg.api_url = `http://${cfg.host}:${cfg.port}/api/`;
-
     return cfg;
 }
 

@@ -5,16 +5,9 @@ const   Forum           = require("../models/forum"),
 module.exports.createForum = async forumData => {
     let result;
 
-    // Validate the data
-    let errorMessages = [];
-    if (!forumData.forum_name)
-        errorMessages.push("No forum name specified.");
-
-    // If there were any errros show the error messages to the client
-    if (errorMessages.length > 0)
-        return Response_Object.failure({
-            errors: errorMessages
-        });
+    // Shouldn't happen
+    if (!forumData.forum_name || !forumData.owner_id)
+        return {};
 
     // Try to create the forum
     let newForum = new Forum(forumData);

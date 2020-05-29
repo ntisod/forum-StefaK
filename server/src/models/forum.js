@@ -6,9 +6,10 @@ const q_create = `INSERT INTO Forums (
                                         forum_name, 
                                         description, 
                                         amount_of_posts, 
-                                        amount_of_members
+                                        amount_of_members,
+                                        owner_id
                                     ) 
-                                    VALUES (?, ?, ?, ?)`;
+                                    VALUES (?, ?, ?, ?, ?)`;
 const q_exists = "SELECT * FROM Forums WHERE forum_id = ?";
 const q_all = "SELECT * FROM Forums";
 const q_inc_members = "UPDATE Forums SET amount_of_members = IFNULL(amount_of_members, 0) + 1 WHERE forum_id = ?";
@@ -17,11 +18,12 @@ const q_inc_posts = "UPDATE Forums SET amount_of_posts = IFNULL(amount_of_posts,
 const q_dec_posts = "UPDATE Forums SET amount_of_posts = amount_of_posts - 1 WHERE forum_id = ?";
 
 module.exports = class Forum {
-    constructor({ forum_name, description, amount_of_posts, amount_of_members}) {
+    constructor({ forum_name, description, amount_of_posts, amount_of_members, owner_id }) {
         this.name               = forum_name;
         this.description        = description;
         this.amount_of_posts    = amount_of_posts;
         this.amount_of_members  = amount_of_members;
+        this.owner_id = owner_id;
     }
 
     async create() {
@@ -32,7 +34,7 @@ module.exports = class Forum {
             }
         }
 
-        await query(q_create, [this.name, this.description, this.amount_of_posts, this.amount_of_members]);
+        await query(q_create, [this.name, this.description, this.amount_of_posts, this.amount_of_members, this.owner_id]);
         return {};
     }
 

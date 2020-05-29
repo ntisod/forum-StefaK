@@ -31,7 +31,7 @@ export default function(props) {
     return (
         <c.Root_Container>
             <c.Posts_Heading>Posts</c.Posts_Heading>
-            {posts.length > 0 && showPosts()}
+            {(posts && posts.length > 0) ? showPosts() : <h1>No posts found</h1>}
         </c.Root_Container>
     )
 }

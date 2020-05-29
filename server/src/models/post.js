@@ -39,7 +39,7 @@ module.exports = class Post {
         let result = await query(q_get_all);
         if (result.rows.length == 0)
             return {
-                error: "No posts found."
+                posts: []
             }
         return {
             posts: result.rows
