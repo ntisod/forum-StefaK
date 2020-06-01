@@ -65,6 +65,96 @@ const Username_Container_Button = styled.button`
     }
 `;
 
+const Admin_Menu = styled.div`
+    padding: 30px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Admin_Menu_Button = styled.div`
+    padding: 10px;
+    background-color: white;
+    margin-right: 10px;
+    margin-left: 10px;
+    &:hover {
+        cursor: pointer;
+        background: gray;
+    }
+`;
+
+const My_Stuff_Button = styled.div`
+    padding: 10px;
+    background-color: white;
+    margin-right: 10px;
+    margin-left: 10px;
+    &:hover {
+        cursor: pointer;
+        background: gray;
+    }
+`;
+
+const My_Stuff_Menu = styled.div`
+    position: fixed;
+    left: 0;
+    top: 8vh;
+    width: 250px;
+    height: 0px;
+    background-color: white;
+    transition: 0.25s;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`;
+
+const Forums_Button = styled.h1`
+    padding: 40px;
+    width: 100px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    margin: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Posts_Button = styled.h1`
+    padding: 40px;
+    width: 100px;
+    height: 50px;
+    background-color: red;
+    color: white;
+    margin: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Comments_Button = styled.h1`
+    padding: 40px;
+    width: 200px;
+    height: 50px;
+    background-color: orange;
+    margin: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Upper_Container = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 export {
     Navbar,
     Menu,
@@ -72,5 +162,13 @@ export {
     Menu_Button,
     Username_Container,
     Username,
-    Username_Container_Button
+    Username_Container_Button,
+    Admin_Menu,
+    Admin_Menu_Button,
+    My_Stuff_Button,
+    My_Stuff_Menu,
+    Forums_Button,
+    Posts_Button,
+    Comments_Button,
+    Upper_Container
 }

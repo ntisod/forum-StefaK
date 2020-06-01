@@ -26,7 +26,9 @@ module.exports.loginUser = async userData => {
 
     // Sign the token once the user info is verified
     const token = jwt.sign( 
-                            {userData}, 
+                            {
+                                username: userData.username
+                            }, 
                             process.env.SECRET_KEY,
                             {expiresIn: "30m"} // TODO: Refresh the token once the expiresIn is very low
                         );

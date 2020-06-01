@@ -52,7 +52,9 @@ export default props => {
         }
         else {
             // If there were no errors, the user is successfully logged in, so change the global state
-            // to reflect that
+            // Set the global username
+            localStorage.setItem("username", state.username);
+            // Refresh the entire page
             props.setLoggedIn(true);
         }   
     }
@@ -60,6 +62,8 @@ export default props => {
     const showErrors = _ => {
         if (state.error)
             return <p>{state.error}</p>
+        // For UI elegancy, won't move everything up once an error shows up
+        else return <p>.</p>
     }
 
     return (
@@ -70,8 +74,8 @@ export default props => {
                     <c.Input type="text" name="username" onChange={handleChange} placeholder="username" autoComplete="off" required />
                     <c.Input type="password" name="password" onChange={handleChange} placeholder="password" autoComplete="off" required />
                     <c.Submit_Button onClick={handleSubmit}>Submit</c.Submit_Button>
+                    {showErrors()}
                 </c.Login_Form>
-                {showErrors()}
             </c.Login_Container>
         </c.Root_Container>
     );

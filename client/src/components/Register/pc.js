@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import * as c from "./pc.styled";
+import { Admin_Menu } from "../Navbar/pc.styled";
 
 export default props => {
     const [state, setState] = useState({

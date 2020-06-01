@@ -11,6 +11,7 @@ const q_create = `INSERT INTO Forums (
                                     ) 
                                     VALUES (?, ?, ?, ?, ?)`;
 const q_exists = "SELECT * FROM Forums WHERE forum_id = ?";
+const q_exists_name = "SELECT * FROM Forums WHERE forum_name= ?";
 const q_all = "SELECT * FROM Forums";
 const q_inc_members = "UPDATE Forums SET amount_of_members = IFNULL(amount_of_members, 0) + 1 WHERE forum_id = ?";
 const q_dec_members = "UPDATE Forums SET amount_of_members = amount_of_members - 1 WHERE forum_id = ?";
@@ -18,11 +19,11 @@ const q_inc_posts = "UPDATE Forums SET amount_of_posts = IFNULL(amount_of_posts,
 const q_dec_posts = "UPDATE Forums SET amount_of_posts = amount_of_posts - 1 WHERE forum_id = ?";
 
 module.exports = class Forum {
-    constructor({ forum_name, description, amount_of_posts, amount_of_members, owner_id }) {
+    constructor({ forum_name, forum_description, owner_id }) {
         this.name               = forum_name;
-        this.description        = description;
-        this.amount_of_posts    = amount_of_posts;
-        this.amount_of_members  = amount_of_members;
+        this.description        = forum_description;
+        this.amount_of_posts    = 0;
+        this.amount_of_members  = 0;
         this.owner_id = owner_id;
     }
 
@@ -32,9 +33,10 @@ module.exports = class Forum {
             return {
                 error: "This forum already exists!"
             }
+        } else {
+            await query(q_create, [this.name, this.description, this.amount_of_posts, this.amount_of_members, this.owner_id]);
         }
 
-        await query(q_create, [this.name, this.description, this.amount_of_posts, this.amount_of_members, this.owner_id]);
         return {};
     }
 
@@ -59,7 +61,7 @@ module.exports = class Forum {
     }
 
     async forumExists() {
-        let results = await query(q_exists, [this.name]);
+        let results = await query(q_exists_name, [this.name]);
         if (results.rows.length > 0) {
             return true;
         } else return false;

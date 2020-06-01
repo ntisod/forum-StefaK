@@ -1,10 +1,13 @@
 const forum_router = require("express").Router();
 const { createForum, getForum, getAllForums, getForumPosts } = require("../../services/forumService");
+const verifyToken = require("../middlewares/verifyToken");
 
 module.exports = app => {
     // Create forum 
-    forum_router.post("/", async (req, res) => {
-        let response = await createForum(req.body);
+    forum_router.post("/", verifyToken, async (req, res) => {
+        let response = await createForum({ ...req.body, owner_id: res.locals.user_id});
+        console.log(req.body);
+        console.log(res.locals.user_id)
         res.json(response);
     });
 

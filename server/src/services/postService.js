@@ -5,7 +5,7 @@ const   Post            = require("../models/post"),
 
 module.exports.createPost = async postData => {
     // Validate the data
-    let new_post = new Post(postData.author, postData.title, postData.content, postData.forum_name);
+    let new_post = new Post(postData.author_id, postData.post_title, postData.post_content, postData.forum_name);
     let errors = [];
     
     // Check whether the author user exists

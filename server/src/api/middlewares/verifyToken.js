@@ -1,5 +1,7 @@
 const Response_Object = require("../../utils/ResponseObject");
 const jwt = require("jsonwebtoken");
+const parseJwt = require("../../utils/parseJwt");
+const User_Model = require("../../models/user");
 
 // Ensures that the authorization header exists and verifies the token
 module.exports = (req, res, next) => {
@@ -27,7 +29,23 @@ module.exports = (req, res, next) => {
                 }
                 res.json(Response_Object.failure({ status: 403, error: response_error }));
             } else { // If everything went well
-                next();
+                // Decode the jwt token
+                let payload_data = parseJwt(bearer_token);
+                
+                // So that the username will be avaible for the services that need it
+                res.locals.username = payload_data.username;
+
+                // I also want to store the user id for convenience
+                // First find the user id of the specified user and store it 
+                async function storeUserId() {
+                    let user_object = await User_Model.getUserByUsername(res.locals.username);
+                    let user_id = user_object.user.user_id;
+                    res.locals.user_id = user_id;
+                    console.log(user_object);
+                    next();
+                }
+
+                storeUserId();
             }
         });
     } else {

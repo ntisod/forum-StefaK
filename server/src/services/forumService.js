@@ -2,15 +2,15 @@ const   Forum           = require("../models/forum"),
         Response_Object  = require("../utils/ResponseObject"),
         Post            = require("../models/post");
 
-module.exports.createForum = async forumData => {
+module.exports.createForum = async ({ forum_name, forum_description, owner_id }) => {
     let result;
 
     // Shouldn't happen
-    if (!forumData.forum_name || !forumData.owner_id)
+    if (!forum_name || !owner_id)
         return {};
 
     // Try to create the forum
-    let newForum = new Forum(forumData);
+    let newForum = new Forum({ forum_name, forum_description, owner_id });
     result = await newForum.create();
     if (result.error) {
         return Response_Object.failure({error: result.error});
